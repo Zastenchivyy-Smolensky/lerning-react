@@ -1,25 +1,53 @@
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import React,{Component} from "react"
 
-export default App;
+let data = {title:"React-context",
+  message:"this is sample message."}
+
+const SampleContext = React.createContext(data)
+
+class App extends Component{
+  newdata={title:"新しいタイトル",
+  message:"これは新しいメッセージです."}
+  
+  render(){
+    return <div>
+      <h1 className="bg-primary text-white display-4">React</h1>
+      <div className="container">
+        <Title/>
+        <Message/>
+        <hr />
+        <SampleContext.Provider value={this.newdata}>
+          <Title />
+          <Message/>
+        </SampleContext.Provider>
+        <hr />
+        <Title />
+        <Message />
+
+      </div>
+    </div>
+  }
+}
+class Title extends Component{
+  static contextType=SampleContext
+  render(){
+    return(
+      <div className="card p-2 my-3">
+        <h2>{this.context.title}</h2>
+      </div>
+    )
+  }
+}
+class Message extends Component{
+  static contextType = SampleContext
+  render(){
+    return(
+      <div className="alert alert-primary">
+        <p>{this.context.message}</p>
+      </div>
+    )
+  }
+}
+export default App
